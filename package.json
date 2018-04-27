@@ -1,0 +1,31 @@
+{
+  "name": "react_tasks",
+  "version": "1.0.0",
+  "description": "A task list build with react.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AllanEd/react-tasks.git"
+  },
+  "keywords": [
+    "react",
+    "express",
+    "npm",
+    "node",
+    "gulp",
+    "browserify"
+  ],
+  "author": "alexander sattelmaier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AllanEd/react-tasks/issues"
+  },
+  "homepage": "https://github.com/AllanEd/react-tasks#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-react": "^7.7.0"
+  }
+}

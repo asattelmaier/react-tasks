@@ -1,0 +1,26 @@
+{
+  "name": "react_tasks",
+  "description": "A task list build with react.",
+  "main": "index.js",
+  "authors": [
+    "alexander sattelmaier"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "react",
+    "express",
+    "npm",
+    "node",
+    "gulp",
+    "browserify"
+  ],
+  "homepage": "https://github.com/AllanEd/react-tasks",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
