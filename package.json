@@ -25,7 +25,27 @@
   },
   "homepage": "https://github.com/AllanEd/react-tasks#readme",
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-plugin-react": "^7.7.0"
+    "@babel/register": "^7.0.0-beta.46",
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-airbnb": "^2.4.0",
+    "babel-register": "^6.26.0",
+    "browser-sync": "^2.23.7",
+    "browserify": "^16.2.0",
+    "ejs": "^2.5.9",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "gulp": "^3.9.1",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.2"
   }
 }

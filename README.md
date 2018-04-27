@@ -19,8 +19,9 @@
 * Browserify - used for dependency management
 
 ### Notes
+* [JavaScript Style Guide](https://github.com/airbnb/javascript) - I used the Style Guide by Airbnb 
 * [.gitignore](https://github.com/facebook/react/blob/master/.gitignore) - File from Reacts Repository
-* [.babelrc](https://github.com/facebook/react/blob/master/.babelrc) - File from Reacts Repository
+* [.babelrc](https://github.com/airbnb/babel-preset-airbnb) - I used the babel settings by Airbnb 
 * [.elintrc.js](https://gist.github.com/nkbt/9efd4facb391edbf8048) - Strict ESLint config for React, ES6 (based on Airbnb Code style) (Note: added .js to .eslintrc configuration file just to have proper code highlighting here in gist.)
 
 # Glossary
