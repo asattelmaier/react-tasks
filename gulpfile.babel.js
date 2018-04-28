@@ -7,24 +7,22 @@ import reactify from 'reactify';
 // Use conventional text streams with Gulp
 import source from 'vinyl-source-stream';
 
-gulp.task('bundle', ['copy'], () =>
-  browserify({
-    entries: 'app/main.jsx',
-    debug: true,
-  })
+const devFile = './app/main.jsx';
+const distFile = 'app.js';
+const distDir = './dist';
+
+const browserifyOptions = {
+  entries: devFile,
+  debug: true,
+};
+
+gulp.task('default', () =>
+  browserify(browserifyOptions)
     .transform(reactify)
     .bundle()
-    .pipe(source('app.js'))
-    .pipe(gulp.dest('./dist')));
+    .pipe(source(distFile))
+    .pipe(gulp.dest(distDir)));
 
-gulp.task('copy', () => {
-  gulp.src(['app/*.css'])
-    .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('serve', ['bundle'], () => {
-  browserSync.init(null, {
-    proxy: 'http://localhost:7777',
-    port: 9001,
-  });
+gulp.task('watch', () => {
+  gulp.watch(devFile, ['default']);
 });
