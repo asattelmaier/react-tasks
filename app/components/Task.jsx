@@ -1,12 +1,22 @@
+// modules
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Task = () => (
-  <div className="grocery-item row">
-    <div className="six columns">
-      <h4 className={this.props.task.done ? 'strikethrough' : ''}>
-        {this.props.task.content}
-      </h4>
-    </div>
-  </div>);
+function Task({ task }) {
+  return (
+    <li>
+      <button> done</button>
+      <p>
+        {task.content}
+      </p>
+    </li>
+  );
+}
 
-module.exports = Task;
+Task.propTypes = {
+  task: PropTypes.shape({
+    content: PropTypes.string,
+  }).isRequired,
+};
+
+export default Task;

@@ -1,28 +1,52 @@
 import gulp from 'gulp';
-// Runs the server
-import browserSync from 'browser-sync';
 // Bundles JS
 import browserify from 'browserify';
+// Babel browserify transform
+import babelify from 'babelify';
+// React browserify transform
 import reactify from 'reactify';
 // Use conventional text streams with Gulp
 import source from 'vinyl-source-stream';
+import sass from 'gulp-sass';
+import sourcemaps from 'gulp-sourcemaps';
 
-const devFile = './app/main.jsx';
-const distFile = 'app.js';
-const distDir = './dist';
+const devSrc = './app';
+const distSrc = './dist';
 
-const browserifyOptions = {
-  entries: devFile,
-  debug: true,
+const gulpConfig = {
+  dev: {
+    entryJsx: `${devSrc}/main.jsx`,
+    entryScss: `${devSrc}/main.scss`,
+  },
+  dist: {
+    entryJs: 'app.js',
+    entryScss: `${distSrc}/main.css`,
+  },
+  browserify: {
+    entries: './app/main.jsx',
+    debug: true,
+  },
 };
 
 gulp.task('default', () =>
-  browserify(browserifyOptions)
+  browserify(gulpConfig.browserify)
+    .transform(babelify)
     .transform(reactify)
     .bundle()
-    .pipe(source(distFile))
-    .pipe(gulp.dest(distDir)));
+    .pipe(source(gulpConfig.dist.entryJs))
+    .pipe(gulp.dest(distSrc)));
 
-gulp.task('watch', () => {
-  gulp.watch(devFile, ['default']);
+gulp.task('watch', ['sass:watch'], () => {
+  gulp.watch(`${devSrc}/**/*.jsx`, ['default']);
+});
+
+gulp.task('sass', () =>
+  gulp.src('./app/main.scss')
+    .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(sourcemaps.write('./maps'))
+    .pipe(gulp.dest('./dist/css')));
+
+gulp.task('sass:watch', () => {
+  gulp.watch('./app/**/*.scss', ['sass']);
 });

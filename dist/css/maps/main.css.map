@@ -1,0 +1,1 @@
+{"version":3,"file":"../main.css","sources":["main.scss","components/Task.scss"],"sourcesContent":["// libraries\r\n@import 'node_modules/normalize.css/normalize.css';\r\n\r\n// components\r\n@import 'components/Task';\r\n\r\n","* {\r\n  // color: red;\r\n}\r\n"],"names":[],"mappings":"AACA,OAAO,CAAP,6CAAO"}
