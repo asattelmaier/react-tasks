@@ -1,15 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TaskList from './components/TaskList.jsx';
+import TaskListStore from './stores/TaskListStore.jsx';
 
-const initalTasks = [{
-  content: 'Task 1',
-}, {
-  content: 'Task 2',
-  done: true,
-}, {
-  content: 'Task 3',
-}];
+let initalTasks = TaskListStore.getTasks();
 
 function render() {
   ReactDOM.render(
@@ -17,5 +11,10 @@ function render() {
     document.getElementById('app'),
   );
 }
+
+TaskListStore.onChange((items) => {
+  initalTasks = items;
+  render();
+});
 
 render();
