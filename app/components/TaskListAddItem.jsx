@@ -6,24 +6,23 @@ import TaskActions from './../actions/TaskActions.jsx';
 class TaskListAddItem extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { value: '' };
 
-    this.state = { input: '' };
-
-    this.changeInputValue = this.changeInputValue.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.addTask = this.addTask.bind(this);
   }
 
-  changeInputValue(e) {
-    this.setState({ input: e.target.value });
+  handleChange(e) {
+    this.setState({ value: e.target.value });
   }
 
   addTask(e) {
     e.preventDefault();
 
-    TaskActions.createTask({ content: this.state.input });
+    TaskActions.createTask({ content: this.state.value });
 
     this.setState({
-      input: '',
+      value: '',
     });
   }
 
@@ -33,10 +32,10 @@ class TaskListAddItem extends React.Component {
         <form onSubmit={this.addTask}>
           <input
             type="text"
-            value={this.state.input}
-            onChange={this.changeInputValue}
+            value={this.state.value}
+            onChange={this.handleChange}
           />
-          <button> Add Item </button>
+          <input type="submit" value="Submit" />
         </form>
       </div>
     );
