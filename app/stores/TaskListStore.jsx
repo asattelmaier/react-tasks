@@ -1,19 +1,21 @@
 import Dispatcher from './../Dispatcher.js';
+import restHelper from './../helpers/restHelper.js';
 
 function TaskListStore() {
-  let tasks = [{
-    id: 1,
-    content: 'Task 1',
-  }, {
-    id: 2,
-    content: 'Task 2',
-    done: true,
-  }, {
-    id: 3,
-    content: 'Task 3',
-  }];
+  let tasks = [];
 
   const listeners = [];
+
+  function triggerListeners() {
+    listeners.forEach((listener) => {
+      listener(tasks);
+    });
+  }
+
+  restHelper.get('api/tasks/get').then((data) => {
+    tasks = data;
+    triggerListeners();
+  });
 
   function getTasks() {
     return tasks;
@@ -23,47 +25,36 @@ function TaskListStore() {
     listeners.push(listener);
   }
 
-  function triggerListeners() {
-    listeners.forEach((listener) => {
-      listener(tasks);
-    });
-  }
-
-  function getNewId() {
-    let newId = 0;
-    const tasksLength = tasks.length;
-
-    for (let i = 0; i < tasksLength; i += 1) {
-      const { id } = tasks[i];
-      if (id > newId) {
-        newId = id;
-      }
-    }
-
-    return newId + 1;
-  }
-
   function createTask(newTask) {
-    const currentTask = newTask;
-    currentTask.id = getNewId();
-
-    tasks.push(currentTask);
+    tasks.push(newTask);
 
     triggerListeners();
+
+    restHelper.post('api/tasks/create', newTask)
+      .catch(error => console.error('Error:', error))
+      .then(response => console.log('Success:', response));
   }
 
   function updateTask(updatedTask) {
-    tasks.filter(task => task.id === updatedTask.id);
+    tasks.filter(task => task._id === updatedTask._id);
 
     triggerListeners();
+
+    restHelper.update('api/tasks/update', updatedTask)
+      .catch(error => console.error('Error:', error))
+      .then(response => console.log('Successful updated:', response));
   }
 
   function deleteTask(deletedTask) {
     const updatedTasks = tasks.filter(task =>
-      task.id !== deletedTask.id);
+      task._id !== deletedTask._id);
     tasks = updatedTasks;
 
     triggerListeners();
+
+    restHelper.del('api/tasks/delete', deletedTask)
+      .catch(error => console.error('Error:', error))
+      .then(response => console.log('Successful delete:', response));
   }
 
   Dispatcher.register((event) => {

@@ -37,7 +37,10 @@ gulp.task('default', () =>
     .pipe(gulp.dest(distSrc)));
 
 gulp.task('watch', ['sass:watch'], () => {
-  gulp.watch(`${devSrc}/**/*.jsx`, ['default']);
+  gulp.watch(
+    [`${devSrc}/**/*.jsx`, `${devSrc}/**/*.js`],
+    ['default'],
+  );
 });
 
 gulp.task('sass', () =>
@@ -45,6 +48,12 @@ gulp.task('sass', () =>
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write('./maps'))
+    .pipe(gulp.dest('./dist/css')));
+
+gulp.task('sass-dependencies', () =>
+  gulp.src('./node_modules/normalize.css/normalize.css')
+    .pipe(sass({ outputStyle: 'compressed' })
+      .on('error', sass.logError))
     .pipe(gulp.dest('./dist/css')));
 
 gulp.task('sass:watch', () => {

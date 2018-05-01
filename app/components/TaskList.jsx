@@ -10,7 +10,7 @@ function TaskList({ tasks }) {
     <div>
       <TaskListAddItem />
       <div>
-        {tasks.map(task => <Task key={task.content} task={task} />)}
+        {tasks.map(task => <Task key={task._id} task={task} />)}
       </div>
     </div>
   );
