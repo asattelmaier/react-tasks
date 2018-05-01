@@ -6,13 +6,17 @@ function TaskListStore() {
 
   const listeners = [];
 
+  function getTasks() {
+    return tasks;
+  }
+
   function triggerListeners() {
     listeners.forEach((listener) => {
       listener(tasks);
     });
   }
 
-  function initialGet() {
+  function requestTasks() {
     restHelper.get('api/tasks/get')
       .then((response) => {
         tasks = response;
@@ -21,40 +25,25 @@ function TaskListStore() {
       });
   }
 
-  initialGet();
-
-  function getTasks() {
-    return tasks;
-  }
+  requestTasks();
 
   function onChange(listener) {
     listeners.push(listener);
   }
 
-  function createTask(newTask) {
-    tasks.push(newTask);
-
-    triggerListeners();
-
-    restHelper.post('api/tasks/create', newTask);
+  function createTask(task) {
+    restHelper.post('api/tasks/create', task)
+      .then(requestTasks());
   }
 
-  function updateTask(updatedTask) {
-    tasks.filter(task => task._id === updatedTask._id);
-
-    triggerListeners();
-
-    restHelper.update('api/tasks/update', updatedTask);
+  function updateTask(task) {
+    restHelper.update('api/tasks/update', task)
+      .then(requestTasks());
   }
 
-  function deleteTask(deletedTask) {
-    const updatedTasks = tasks.filter(task =>
-      task._id !== deletedTask._id);
-    tasks = updatedTasks;
-
-    triggerListeners();
-
-    restHelper.del('api/tasks/delete', deletedTask);
+  function deleteTask(task) {
+    restHelper.del('api/tasks/delete', task)
+      .then(requestTasks());
   }
 
   Dispatcher.register((event) => {

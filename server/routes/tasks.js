@@ -18,7 +18,7 @@ export default function (app) {
     .delete((req, res) => {
       const requestTask = req.body;
 
-      Task.findOne({ _id: requestTask.id })
+      Task.findOne({ _id: requestTask._id })
         .remove((err) => {
           if (err) {
             res.status(503)
