@@ -12,10 +12,16 @@ function TaskListStore() {
     });
   }
 
-  restHelper.get('api/tasks/get').then((data) => {
-    tasks = data;
-    triggerListeners();
-  });
+  function initialGet() {
+    restHelper.get('api/tasks/get')
+      .then((response) => {
+        tasks = response;
+
+        triggerListeners();
+      });
+  }
+
+  initialGet();
 
   function getTasks() {
     return tasks;
@@ -30,9 +36,7 @@ function TaskListStore() {
 
     triggerListeners();
 
-    restHelper.post('api/tasks/create', newTask)
-      .catch(error => console.error('Error:', error))
-      .then(response => console.log('Success:', response));
+    restHelper.post('api/tasks/create', newTask);
   }
 
   function updateTask(updatedTask) {
@@ -40,9 +44,7 @@ function TaskListStore() {
 
     triggerListeners();
 
-    restHelper.update('api/tasks/update', updatedTask)
-      .catch(error => console.error('Error:', error))
-      .then(response => console.log('Successful updated:', response));
+    restHelper.update('api/tasks/update', updatedTask);
   }
 
   function deleteTask(deletedTask) {
@@ -52,9 +54,7 @@ function TaskListStore() {
 
     triggerListeners();
 
-    restHelper.del('api/tasks/delete', deletedTask)
-      .catch(error => console.error('Error:', error))
-      .then(response => console.log('Successful delete:', response));
+    restHelper.del('api/tasks/delete', deletedTask);
   }
 
   Dispatcher.register((event) => {

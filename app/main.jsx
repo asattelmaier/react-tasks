@@ -12,8 +12,8 @@ function render() {
   );
 }
 
-TaskListStore.onChange((items) => {
-  initalTasks = items;
+TaskListStore.onChange((tasks) => {
+  initalTasks = tasks;
   render();
 });
 
