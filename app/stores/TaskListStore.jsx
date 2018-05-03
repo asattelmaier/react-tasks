@@ -35,7 +35,7 @@ function TaskListStore() {
       });
   }
 
-  function getInitialTasks() {
+  function httpGetInitialTasks() {
     httpGetTasks();
     return tasks;
   }
@@ -78,7 +78,7 @@ function TaskListStore() {
   });
 
   return {
-    getInitialTasks,
+    httpGetInitialTasks,
     onChange,
   };
 }

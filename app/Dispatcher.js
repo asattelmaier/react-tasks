@@ -1,17 +1,17 @@
 import Guid from 'guid';
 
-const listeners = {};
+const registeredFunctions = {};
 
 const Dispatcher = {
-  register: (cb) => {
-    const id = Guid.raw();
-    listeners[id] = cb;
-    return id;
+  register: (registerFunction) => {
+    if (typeof registerFunction === 'function') {
+      const id = Guid.raw();
+      registeredFunctions[id] = registerFunction;
+    }
   },
-  dispatch: (data) => {
-    Object.keys(listeners).forEach((id) => {
-      const listener = listeners[id];
-      listener(data);
+  dispatch: (taskAction) => {
+    Object.keys(registeredFunctions).forEach((id) => {
+      registeredFunctions[id](taskAction);
     });
   },
 };

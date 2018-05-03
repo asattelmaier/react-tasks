@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import TaskList from './components/TaskList.jsx';
 import TaskListStore from './stores/TaskListStore.jsx';
 
-let initialTasks = TaskListStore.getInitialTasks();
+let initialTasks = TaskListStore.httpGetInitialTasks();
 
 const appElement = document.getElementById('app');
 
