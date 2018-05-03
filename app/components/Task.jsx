@@ -13,15 +13,9 @@ class Task extends React.Component {
   toggleDone(e) {
     e.preventDefault();
 
-    const currentTask = this.props.task;
+    this.props.task.done = !this.props.task.done;
 
-    if (currentTask.done === true) {
-      currentTask.done = false;
-    } else {
-      currentTask.done = true;
-    }
-
-    TaskActions.updateTask(currentTask);
+    TaskActions.updateTask(this.props.task);
   }
 
   deleteTask(e) {
