@@ -1,7 +1,5 @@
-// modules
 import React from 'react';
 import PropTypes from 'prop-types';
-// actions
 import TaskActions from './../actions/TaskActions.jsx';
 
 class Task extends React.Component {

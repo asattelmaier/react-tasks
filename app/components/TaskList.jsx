@@ -1,7 +1,5 @@
-// modules
 import React from 'react';
 import PropTypes from 'prop-types';
-// components
 import Task from './Task.jsx';
 import TaskListAddItem from './TaskListAddItem.jsx';
 

@@ -1,6 +1,4 @@
-// modules
 import React from 'react';
-// actions
 import TaskActions from './../actions/TaskActions.jsx';
 
 class TaskListAddItem extends React.Component {
