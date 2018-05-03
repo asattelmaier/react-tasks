@@ -42,17 +42,17 @@ function TaskListStore() {
 
   function httpPostTask(task) {
     restHelper.httpPost('api/tasks/create', task)
-      .then(httpGetTasks());
+      .then(() => httpGetTasks());
   }
 
   function httpPatchTask(task) {
     restHelper.httpPatch('api/tasks/update', task)
-      .then(httpGetTasks());
+      .then(() => httpGetTasks());
   }
 
   function httpDeleteTask(task) {
     restHelper.httpDelete('api/tasks/delete', task)
-      .then(httpGetTasks());
+      .then(() => httpGetTasks());
   }
 
   Dispatcher.register((taskActions) => {

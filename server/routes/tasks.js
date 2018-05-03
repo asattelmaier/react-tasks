@@ -79,8 +79,9 @@ export default function(app) {
               updatedTask[key] = requestTask[key];
             });
 
-            updatedTask.save();
-            res.status(200).send();
+            updatedTask.save().then(() => {
+              res.status(200).send();
+            });
           }
         },
       );
