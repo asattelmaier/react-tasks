@@ -3,17 +3,19 @@ import ReactDOM from 'react-dom';
 import TaskList from './components/TaskList.jsx';
 import TaskListStore from './stores/TaskListStore.jsx';
 
-let initalTasks = TaskListStore.getTasks();
+let initialTasks = TaskListStore.getInitialTasks();
+
+const appElement = document.getElementById('app');
 
 function render() {
   ReactDOM.render(
-    <TaskList tasks={initalTasks} />,
-    document.getElementById('app'),
+    <TaskList tasks={initialTasks} />,
+    appElement,
   );
 }
 
-TaskListStore.onChange((tasks) => {
-  initalTasks = tasks;
+TaskListStore.onChange((updatedTasks) => {
+  initialTasks = updatedTasks;
   render();
 });
 

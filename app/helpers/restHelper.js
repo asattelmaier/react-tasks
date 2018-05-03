@@ -1,7 +1,7 @@
 export default {
-  get: url => fetch(url)
+  httpGet: url => fetch(url)
     .then(response => response.json()),
-  post: (url, data) => fetch(url, {
+  httpPost: (url, data) => fetch(url, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: new Headers({
@@ -10,7 +10,7 @@ export default {
   })
     .then(response => console.log('POST Success:', response))
     .catch(error => console.error('POST Error:', error)),
-  del: (url, data) => fetch(url, {
+  httpDelete: (url, data) => fetch(url, {
     method: 'DELETE',
     body: JSON.stringify(data),
     headers: new Headers({
@@ -19,7 +19,7 @@ export default {
   })
     .catch(error => console.error('DELETE Error:', error))
     .then(response => console.log('DELETE Success:', response)),
-  update: (url, data) => fetch(url, {
+  httpPatch: (url, data) => fetch(url, {
     method: 'PATCH',
     body: JSON.stringify(data),
     headers: new Headers({

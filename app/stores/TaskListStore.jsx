@@ -4,62 +4,71 @@ import restHelper from './../helpers/restHelper.js';
 function TaskListStore() {
   let tasks = [];
 
-  const listeners = [];
+  const registeredFunctions = [];
 
   function getTasks() {
     return tasks;
   }
 
-  function triggerListeners() {
-    listeners.forEach((listener) => {
-      listener(tasks);
+  function triggerRegisteredFunctions() {
+    registeredFunctions.forEach((registeredFuntion) => {
+      registeredFuntion(getTasks());
     });
   }
 
-  function requestTasks() {
-    restHelper.get('api/tasks/get')
-      .then((response) => {
-        tasks = response;
+  function updateTasks(updatedTasks) {
+    tasks = updatedTasks;
 
-        triggerListeners();
+    triggerRegisteredFunctions();
+  }
+
+  function onChange(newRegisteredFuntion) {
+    if (typeof newRegisteredFuntion === 'function') {
+      registeredFunctions.push(newRegisteredFuntion);
+    }
+  }
+
+  function httpGetTasks() {
+    restHelper.httpGet('api/tasks/get')
+      .then((response) => {
+        updateTasks(response);
       });
   }
 
-  requestTasks();
-
-  function onChange(listener) {
-    listeners.push(listener);
+  function getInitialTasks() {
+    httpGetTasks();
+    return tasks;
   }
 
-  function createTask(task) {
-    restHelper.post('api/tasks/create', task)
-      .then(requestTasks());
+  function httpPostTask(task) {
+    restHelper.httpPost('api/tasks/create', task)
+      .then(httpGetTasks());
   }
 
-  function updateTask(task) {
-    restHelper.update('api/tasks/update', task)
-      .then(requestTasks());
+  function httpPatchTask(task) {
+    restHelper.httpPatch('api/tasks/update', task)
+      .then(httpGetTasks());
   }
 
-  function deleteTask(task) {
-    restHelper.del('api/tasks/delete', task)
-      .then(requestTasks());
+  function httpDeleteTask(task) {
+    restHelper.httpDelete('api/tasks/delete', task)
+      .then(httpGetTasks());
   }
 
-  Dispatcher.register((event) => {
-    const { action, data } = event;
+  Dispatcher.register((taskActions) => {
+    const { action, task } = taskActions;
 
     switch (action) {
       case 'create': {
-        createTask(data);
+        httpPostTask(task);
         break;
       }
       case 'update': {
-        updateTask(data);
+        httpPatchTask(task);
         break;
       }
       case 'delete': {
-        deleteTask(data);
+        httpDeleteTask(task);
         break;
       }
       default: {
@@ -69,7 +78,7 @@ function TaskListStore() {
   });
 
   return {
-    getTasks,
+    getInitialTasks,
     onChange,
   };
 }
