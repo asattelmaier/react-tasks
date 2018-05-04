@@ -42,7 +42,10 @@ function TaskListStore() {
 
   function httpPostTask(task) {
     restHelper.httpPost('api/tasks/create', task)
-      .then(() => httpGetTasks());
+      .then(() => httpGetTasks())
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   function httpPatchTask(task) {

@@ -1,31 +1,52 @@
-export default {
-  httpGet: url => fetch(url)
-    .then(response => response.json()),
-  httpPost: (url, data) => fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-  })
-    .then(response => console.log('POST Success:', response))
-    .catch(error => console.error('POST Error:', error)),
-  httpDelete: (url, data) => fetch(url, {
-    method: 'DELETE',
-    body: JSON.stringify(data),
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-  })
-    .catch(error => console.error('DELETE Error:', error))
-    .then(response => console.log('DELETE Success:', response)),
-  httpPatch: (url, data) => fetch(url, {
-    method: 'PATCH',
-    body: JSON.stringify(data),
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-  })
-    .catch(error => console.error('PATCH Error:', error))
-    .then(response => console.log('PATCH Success:', response)),
-};
+import taskValidator from './../helpers/taskValidator.js';
+
+function restHelper() {
+  function getHttpOptions(methodName, data) {
+    return {
+      method: methodName,
+      body: JSON.stringify(data),
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+    };
+  }
+
+  function httpGet(url) {
+    return fetch(url)
+      .then(response => response.json());
+  }
+
+  function httpPost(url, data) {
+    const { isValid, notification } =
+      taskValidator.validateTask(data);
+
+    if (!isValid) {
+      return Promise.reject(notification);
+    }
+
+    return fetch(url, getHttpOptions('POST', data))
+      .then(() => Promise.resolve())
+      .catch(error => Promise.reject(error));
+  }
+
+  function httpDelete(url, data) {
+    return fetch(url, getHttpOptions('DELETE', data))
+      .then(() => Promise.resolve())
+      .catch(error => Promise.reject(error));
+  }
+
+  function httpPatch(url, data) {
+    return fetch(url, getHttpOptions('PATCH', data))
+      .then(() => Promise.resolve())
+      .catch(error => Promise.reject(error));
+  }
+
+  return {
+    httpGet,
+    httpPost,
+    httpDelete,
+    httpPatch,
+  };
+}
+
+export default restHelper();
