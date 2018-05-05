@@ -167,9 +167,7 @@ function TaskListStore() {
     const currentTask =
       new Task(task.__v, task._id, task.content, task.done);
 
-    if (currentlyOnline() === false) {
-      currentTask.incrementVersion();
-    }
+    currentTask.incrementVersion();
 
     return currentTask.getValues();
   }

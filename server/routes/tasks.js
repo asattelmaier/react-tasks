@@ -34,10 +34,17 @@ export default function (app) {
     .post((req, res) => {
       const requestTasks = req.body;
       let isValid = false;
+      let countTasks = 0;
 
       isValid = generalValidation(req);
 
-      for (let i = 0; i < requestTasks.length; i += 1) {
+      if (typeof requestTasks === 'object') {
+        countTasks = 1;
+      } else {
+        countTasks = requestTasks.length;
+      }
+
+      for (let i = 0; i < countTasks; i += 1) {
         isValid = postValidation(requestTasks[i].content);
 
         if (isValid) {
