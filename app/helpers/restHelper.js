@@ -13,7 +13,12 @@ function restHelper() {
 
   function httpGet(url) {
     return fetch(url)
-      .then(response => response.json());
+      .then((response) => {
+        if (response.ok === false) {
+          return Promise.reject();
+        }
+        return response.json();
+      });
   }
 
   function httpPost(url, data) {

@@ -1,13 +1,17 @@
 import Dispatcher from './../Dispatcher.js';
 import restHelper from './../helpers/restHelper.js';
+import TaskListLocalStore from './../stores/TaskListLocalStore.js';
 
 function TaskListStore() {
-  let tasks = [];
-
+  let _tasks = [];
   const registeredFunctions = [];
 
   function getTasks() {
-    return tasks;
+    return _tasks;
+  }
+
+  function setTasks(newTasks) {
+    _tasks = newTasks;
   }
 
   function triggerRegisteredFunctions() {
@@ -17,7 +21,7 @@ function TaskListStore() {
   }
 
   function updateTasks(updatedTasks) {
-    tasks = updatedTasks;
+    setTasks(updatedTasks);
 
     triggerRegisteredFunctions();
   }
@@ -29,22 +33,39 @@ function TaskListStore() {
   }
 
   function httpGetTasks() {
-    restHelper.httpGet('api/tasks/get')
-      .then((response) => {
-        updateTasks(response);
-      });
+    return new Promise((resolve, reject) => {
+      restHelper.httpGet('api/tasks/get')
+        .then((onlineTasks) => {
+          updateTasks(onlineTasks);
+          resolve();
+        })
+        .catch(() => {
+          TaskListLocalStore
+            .getTasks()
+            .then((localTasks) => {
+              updateTasks(localTasks);
+              resolve();
+            })
+            .catch(() => reject());
+        });
+    });
   }
 
   function httpGetInitialTasks() {
-    httpGetTasks();
-    return tasks;
+    return new Promise((resolve) => {
+      httpGetTasks()
+        .then(() => {
+          TaskListLocalStore.createLocalStore(getTasks());
+          resolve(getTasks());
+        });
+    });
   }
 
   function httpPostTask(task) {
     restHelper.httpPost('api/tasks/create', task)
       .then(() => httpGetTasks())
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
+        TaskListLocalStore.putTask(task);
       });
   }
 

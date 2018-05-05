@@ -1,0 +1,10 @@
+CACHE MANIFEST
+
+CACHE:
+./../app.js
+./../css/normalize.css
+./../css/main.css
+
+NETWORK:
+./../app.js
+http://localhost:7777/api/tasks/get

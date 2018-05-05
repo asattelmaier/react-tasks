@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TaskList from './components/TaskList.jsx';
-import TaskListStore from './stores/TaskListStore.jsx';
+import TaskListStore from './stores/TaskListStore.js';
 
 let initialTasks = TaskListStore.httpGetInitialTasks();
 
@@ -19,4 +19,4 @@ TaskListStore.onChange((updatedTasks) => {
   render();
 });
 
-render();
+initialTasks.then(() => render());
