@@ -1,10 +1,12 @@
 import Dispatcher from './../Dispatcher.js';
 import restHelper from './../helpers/restHelper.js';
 import TaskListLocalStore from './../stores/TaskListLocalStore.js';
+import Task from './../models/Task.js';
 
 function TaskListStore() {
   let _tasks = [];
-  const registeredFunctions = [];
+  let _online = true;
+  const _registeredFunctions = [];
 
   function getTasks() {
     return _tasks;
@@ -14,36 +16,115 @@ function TaskListStore() {
     _tasks = newTasks;
   }
 
+  function addTask(newTask) {
+    const newTasks = _tasks;
+    newTasks.push(newTask);
+
+    setTasks(newTasks);
+  }
+
+  function removeTask(deletedTask) {
+    const newTasks = _tasks
+      .filter(task => task._id !== deletedTask._id);
+
+    setTasks(newTasks);
+  }
+
+  function updateTask(updatedTask) {
+    const newTasks = _tasks;
+    newTasks.forEach((task, index) => {
+      if (task._id === updatedTask._id) {
+        newTasks[index] = updatedTask;
+      }
+    });
+
+    setTasks(newTasks);
+  }
+
+  function currentlyOnline() {
+    return _online;
+  }
+
+  function setOnlineStatus(isOnline) {
+    _online = isOnline;
+  }
+
   function triggerRegisteredFunctions() {
-    registeredFunctions.forEach((registeredFuntion) => {
+    _registeredFunctions.forEach((registeredFuntion) => {
       registeredFuntion(getTasks());
     });
   }
 
-  function updateTasks(updatedTasks) {
+  function generalSetTasks(updatedTasks) {
+    TaskListLocalStore.setTasks(updatedTasks);
     setTasks(updatedTasks);
+    restHelper.httpPost('api/tasks/create', updatedTasks);
 
     triggerRegisteredFunctions();
   }
 
-  function onChange(newRegisteredFuntion) {
-    if (typeof newRegisteredFuntion === 'function') {
-      registeredFunctions.push(newRegisteredFuntion);
-    }
+  function compareOnlineAndLocalStore(onlineTasks) {
+    return new Promise((resolve, reject) => {
+      TaskListLocalStore
+        .getTasks()
+        .then((localTasks) => {
+          const tasksOnline = onlineTasks;
+          const tasksLocal = localTasks;
+          const mergedTasks = [];
+
+          for (let i = 0; i < tasksLocal.length; i += 1) {
+            for (let y = 0; y < tasksOnline.length; y += 1) {
+              if (tasksLocal[i]._id === tasksOnline[y]._id) {
+                if (tasksLocal[i].__v >= tasksOnline[y].__v) {
+                  mergedTasks.push(tasksLocal[i]);
+                } else {
+                  mergedTasks.push(tasksOnline[y]);
+                }
+                break;
+              }
+            }
+
+            const mergeTasksLength = mergedTasks.length;
+            let lastMergedTask =
+              mergedTasks[mergeTasksLength - 1];
+
+            if (typeof lastMergedTask === 'undefined') {
+              lastMergedTask = [];
+            }
+
+            if (lastMergedTask._id !== tasksLocal[i]._id) {
+              mergedTasks.push(tasksLocal[i]);
+            }
+          }
+
+          resolve(mergedTasks);
+        })
+        .catch(() => reject());
+    });
   }
 
-  function httpGetTasks() {
+  function generalGetTasks() {
     return new Promise((resolve, reject) => {
-      restHelper.httpGet('api/tasks/get')
+      restHelper
+        .httpGet('api/tasks/get')
         .then((onlineTasks) => {
-          updateTasks(onlineTasks);
-          resolve();
+          if (currentlyOnline() === false) {
+            setOnlineStatus(true);
+          }
+
+          compareOnlineAndLocalStore(onlineTasks)
+            .then((comparedTasks) => {
+              generalSetTasks(comparedTasks);
+              resolve();
+            });
         })
         .catch(() => {
+          setOnlineStatus(false);
+
           TaskListLocalStore
             .getTasks()
             .then((localTasks) => {
-              updateTasks(localTasks);
+              generalSetTasks(localTasks);
               resolve();
             })
             .catch(() => reject());
@@ -51,48 +132,64 @@ function TaskListStore() {
     });
   }
 
-  function httpGetInitialTasks() {
+  function generalCreateTask(task) {
+    TaskListLocalStore.putTask(task);
+    restHelper.httpPost('api/tasks/create', task);
+    addTask(task);
+
+    triggerRegisteredFunctions();
+  }
+
+  function generalDeleteTask(task) {
+    TaskListLocalStore.deleteTask(task);
+    restHelper.httpDelete('api/tasks/delete', task);
+    removeTask(task);
+
+    triggerRegisteredFunctions();
+  }
+
+  function generalUpdateTask(task) {
+    TaskListLocalStore.putTask(task);
+    restHelper.httpPatch('api/tasks/patch', task);
+    updateTask(task);
+
+    triggerRegisteredFunctions();
+  }
+
+  function getInitialTasks() {
     return new Promise((resolve) => {
-      httpGetTasks()
-        .then(() => {
-          TaskListLocalStore.createLocalStore(getTasks());
-          resolve(getTasks());
-        });
+      generalGetTasks()
+        .then(() => resolve(getTasks()));
     });
   }
 
-  function httpPostTask(task) {
-    restHelper.httpPost('api/tasks/create', task)
-      .then(() => httpGetTasks())
-      .catch(() => {
-        TaskListLocalStore.putTask(task);
-      });
-  }
+  function normalizeTask(task) {
+    const currentTask =
+      new Task(task.__v, task._id, task.content, task.done);
 
-  function httpPatchTask(task) {
-    restHelper.httpPatch('api/tasks/update', task)
-      .then(() => httpGetTasks());
-  }
+    if (currentlyOnline() === false) {
+      currentTask.incrementVersion();
+    }
 
-  function httpDeleteTask(task) {
-    restHelper.httpDelete('api/tasks/delete', task)
-      .then(() => httpGetTasks());
+    return currentTask.getValues();
   }
 
   Dispatcher.register((taskActions) => {
     const { action, task } = taskActions;
 
+    const normalizedTask = normalizeTask(task);
+
     switch (action) {
       case 'create': {
-        httpPostTask(task);
+        generalCreateTask(normalizedTask);
         break;
       }
       case 'update': {
-        httpPatchTask(task);
+        generalUpdateTask(normalizedTask);
         break;
       }
       case 'delete': {
-        httpDeleteTask(task);
+        generalDeleteTask(normalizedTask);
         break;
       }
       default: {
@@ -101,8 +198,14 @@ function TaskListStore() {
     }
   });
 
+  function onChange(newRegisteredFuntion) {
+    if (typeof newRegisteredFuntion === 'function') {
+      _registeredFunctions.push(newRegisteredFuntion);
+    }
+  }
+
   return {
-    httpGetInitialTasks,
+    getInitialTasks,
     onChange,
   };
 }

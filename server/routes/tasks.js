@@ -1,7 +1,7 @@
 import validator from 'validator';
 import Task from './../models/Task.js';
 
-export default function(app) {
+export default function (app) {
   function generalValidation(req) {
     let isValid = false;
 
@@ -32,18 +32,26 @@ export default function(app) {
 
   app.route('/api/tasks/create')
     .post((req, res) => {
-      const requestTask = req.body;
+      const requestTasks = req.body;
       let isValid = false;
 
       isValid = generalValidation(req);
-      isValid = postValidation(requestTask.content);
+
+      for (let i = 0; i < requestTasks.length; i += 1) {
+        isValid = postValidation(requestTasks[i].content);
+
+        if (isValid) {
+          const newTask = new Task(requestTasks[i]);
+          newTask.save();
+        } else {
+          res.status(503)
+            .send('Invalid Data.');
+          break;
+        }
+      }
 
       if (isValid) {
-        const newTask = new Task(requestTask);
-        newTask.save(() => res.status(200).send());
-      } else {
-        res.status(503)
-          .send('Invalid Data.');
+        res.status(200).send();
       }
     });
 
@@ -62,7 +70,7 @@ export default function(app) {
         });
     });
 
-  app.route('/api/tasks/update')
+  app.route('/api/tasks/patch')
     .patch((req, res) => {
       const requestTask = req.body;
 

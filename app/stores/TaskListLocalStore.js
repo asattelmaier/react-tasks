@@ -55,6 +55,14 @@ function TaskListLocalStore() {
       .catch(error => console.error(error.message));
   }
 
+  function deleteTask(task) {
+    getLocalStore()
+      .then((tasksStore) => {
+        tasksStore.delete(task._id);
+      })
+      .catch(error => console.error(error.message));
+  }
+
   function getTasks() {
     return new Promise((resolve, reject) => {
       getLocalStore()
@@ -98,9 +106,15 @@ function TaskListLocalStore() {
     };
   }
 
+  function setTasks(tasks) {
+    createLocalStore(tasks);
+  }
+
   return {
     putTask,
     getTasks,
+    setTasks,
+    deleteTask,
     createLocalStore,
   };
 }

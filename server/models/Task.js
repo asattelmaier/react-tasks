@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
 const TaskSchema = {
+  __v: Number,
+  _id: String,
   content: String,
   done: Boolean,
 };

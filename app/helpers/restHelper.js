@@ -1,5 +1,3 @@
-import taskValidator from './../helpers/taskValidator.js';
-
 function restHelper() {
   function getHttpOptions(methodName, data) {
     return {
@@ -22,28 +20,26 @@ function restHelper() {
   }
 
   function httpPost(url, data) {
-    const { isValid, notification } =
-      taskValidator.validateTask(data);
-
-    if (!isValid) {
-      return Promise.reject(notification);
-    }
-
-    return fetch(url, getHttpOptions('POST', data))
-      .then(() => Promise.resolve())
-      .catch(error => Promise.reject(error));
+    return new Promise((resolve, reject) => {
+      fetch(url, getHttpOptions('POST', data))
+        .then((response) => {
+          if (response.ok === false) {
+            reject();
+          }
+          resolve();
+        })
+        .catch(() => reject());
+    });
   }
 
   function httpDelete(url, data) {
-    return fetch(url, getHttpOptions('DELETE', data))
-      .then(() => Promise.resolve())
-      .catch(error => Promise.reject(error));
+    fetch(url, getHttpOptions('DELETE', data))
+      .catch(error => console.error(error));
   }
 
   function httpPatch(url, data) {
-    return fetch(url, getHttpOptions('PATCH', data))
-      .then(() => Promise.resolve())
-      .catch(error => Promise.reject(error));
+    fetch(url, getHttpOptions('PATCH', data))
+      .catch(error => console.error(error));
   }
 
   return {
