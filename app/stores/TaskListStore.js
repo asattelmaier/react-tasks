@@ -1,7 +1,8 @@
 import Dispatcher from './../Dispatcher.js';
-import restHelper from './../helpers/restHelper.js';
 import TaskListLocalStore from './../stores/TaskListLocalStore.js';
 import Task from './../models/Task.js';
+import restHelper from './../helpers/restHelper.js';
+import compareTasksHelper from './../helpers/compareTasksHelper.js';
 
 function TaskListStore() {
   let _tasks = [];
@@ -63,41 +64,12 @@ function TaskListStore() {
     triggerRegisteredFunctions();
   }
 
-  function compareOnlineAndLocalStore(onlineTasks) {
+  function compareOnlineAndLocalStore(tasksOnline) {
     return new Promise((resolve, reject) => {
       TaskListLocalStore
         .getTasks()
-        .then((localTasks) => {
-          const tasksOnline = onlineTasks;
-          const tasksLocal = localTasks;
-          const mergedTasks = [];
-
-          for (let i = 0; i < tasksLocal.length; i += 1) {
-            for (let y = 0; y < tasksOnline.length; y += 1) {
-              if (tasksLocal[i]._id === tasksOnline[y]._id) {
-                if (tasksLocal[i].__v >= tasksOnline[y].__v) {
-                  mergedTasks.push(tasksLocal[i]);
-                } else {
-                  mergedTasks.push(tasksOnline[y]);
-                }
-                break;
-              }
-            }
-
-            const mergeTasksLength = mergedTasks.length;
-            let lastMergedTask =
-              mergedTasks[mergeTasksLength - 1];
-
-            if (typeof lastMergedTask === 'undefined') {
-              lastMergedTask = [];
-            }
-
-            if (lastMergedTask._id !== tasksLocal[i]._id) {
-              mergedTasks.push(tasksLocal[i]);
-            }
-          }
-
-          resolve(mergedTasks);
+        .then((tasksLocal) => {
+          compareTasksHelper(tasksLocal, tasksOnline, resolve);
         })
         .catch(() => reject());
     });
