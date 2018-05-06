@@ -57,10 +57,13 @@ class Task {
   }
 
   static mongoObjectId() {
-    var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
-    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
-        return (Math.random() * 16 | 0).toString(16);
-    }).toLowerCase();
+    const timestamp = Math.floor(Date.now() / 1000);
+    const randHelper = () => Math.floor(Math.random() * 16);
+    let randomString = 'xxxxxxxxxxxxxxxx';
+    randomString = randomString.replace(/[x]/g, () => randHelper().toString(16));
+    randomString = randomString.toLowerCase();
+
+    return (timestamp).toString(16) + randomString;
   }
 }
 
