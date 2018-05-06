@@ -34,25 +34,17 @@ export default function (app) {
     .post((req, res) => {
       const requestTasks = req.body;
       let isValid = false;
-      let countTasks = 0;
 
       isValid = generalValidation(req);
 
-      if (typeof requestTasks === 'object') {
-        countTasks = 1;
-      } else {
-        countTasks = requestTasks.length;
-      }
-
-      for (let i = 0; i < countTasks; i += 1) {
+      for (let i = 0; i < requestTasks.length; i += 1) {
         isValid = postValidation(requestTasks[i].content);
 
         if (isValid) {
           const newTask = new Task(requestTasks[i]);
           newTask.save();
         } else {
-          res.status(503)
-            .send('Invalid Data.');
+          res.status(503).send('Invalid Data.');
           break;
         }
       }
@@ -62,7 +54,25 @@ export default function (app) {
       }
     });
 
-  app.route('/api/tasks/delete')
+  app.route('/api/task/create')
+    .post((req, res) => {
+      const requestTask = req.body;
+      let isValid = false;
+
+      isValid = generalValidation(req);
+
+      isValid = postValidation(requestTask.content);
+
+      if (isValid) {
+        const newTask = new Task(requestTask);
+        newTask.save();
+        res.status(200).send();
+      } else {
+        res.status(503).send('Invalid Data.');
+      }
+    });
+
+  app.route('/api/task/delete')
     .delete((req, res) => {
       const requestTask = req.body;
 
@@ -77,7 +87,7 @@ export default function (app) {
         });
     });
 
-  app.route('/api/tasks/patch')
+  app.route('/api/task/patch')
     .patch((req, res) => {
       const requestTask = req.body;
 

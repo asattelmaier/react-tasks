@@ -134,7 +134,7 @@ function TaskListStore() {
 
   function generalCreateTask(task) {
     TaskListLocalStore.putTask(task);
-    restHelper.httpPost('api/tasks/create', task);
+    restHelper.httpPost('api/task/create', task);
     addTask(task);
 
     triggerRegisteredFunctions();
@@ -142,7 +142,7 @@ function TaskListStore() {
 
   function generalDeleteTask(task) {
     TaskListLocalStore.deleteTask(task);
-    restHelper.httpDelete('api/tasks/delete', task);
+    restHelper.httpDelete('api/task/delete', task);
     removeTask(task);
 
     triggerRegisteredFunctions();
@@ -150,7 +150,7 @@ function TaskListStore() {
 
   function generalUpdateTask(task) {
     TaskListLocalStore.putTask(task);
-    restHelper.httpPatch('api/tasks/patch', task);
+    restHelper.httpPatch('api/task/patch', task);
     updateTask(task);
 
     triggerRegisteredFunctions();
