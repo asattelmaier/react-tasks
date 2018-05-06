@@ -66,6 +66,8 @@ function TaskListStore() {
 
   function compareOnlineAndLocalStore(tasksOnline) {
     return new Promise((resolve, reject) => {
+      TaskListLocalStore.createLocalStore([]);
+
       TaskListLocalStore
         .getTasks()
         .then((tasksLocal) => {
