@@ -71,7 +71,7 @@ function TaskListStore() {
         .then((tasksLocal) => {
           compareTasksHelper(tasksLocal, tasksOnline, resolve);
         })
-        .catch(() => reject());
+        .catch(error => reject(console.error(error)));
     });
   }
 
@@ -99,7 +99,7 @@ function TaskListStore() {
               generalSetTasks(localTasks);
               resolve();
             })
-            .catch(() => reject());
+            .catch(error => reject(console.error(error)));
         });
     });
   }

@@ -17,9 +17,9 @@ function TaskListLocalStore() {
         resolve(indexDBRequest.result);
       };
 
-      indexDBRequest.onerror = () => {
-        const errorMessage = 'Cannot open Database.';
-        reject(new Error(errorMessage));
+      indexDBRequest.onerror = (error) => {
+        console.error(error);
+        reject();
       };
     });
   }
@@ -34,8 +34,8 @@ function TaskListLocalStore() {
               'readwrite',
             );
 
-          dbTransaction.onerror = () => {
-            console.error('Local DB transaction error.');
+          dbTransaction.onerror = (error) => {
+            console.error(error);
           };
 
           const tasksStore =
@@ -43,7 +43,7 @@ function TaskListLocalStore() {
 
           resolve(tasksStore);
         })
-        .catch(error => reject(error));
+        .catch(error => reject(console.error(error)));
     });
   }
 
@@ -52,7 +52,7 @@ function TaskListLocalStore() {
       .then((tasksStore) => {
         tasksStore.put(task);
       })
-      .catch(error => console.error(error.message));
+      .catch(error => console.error(error));
   }
 
   function deleteTask(task) {
@@ -60,7 +60,7 @@ function TaskListLocalStore() {
       .then((tasksStore) => {
         tasksStore.delete(task._id);
       })
-      .catch(error => console.error(error.message));
+      .catch(error => console.error(error));
   }
 
   function getTasks() {
@@ -75,7 +75,7 @@ function TaskListLocalStore() {
               resolve(tasks);
             };
         })
-        .catch(() => reject());
+        .catch(error => reject(console.error(error)));
     });
   }
 
@@ -87,7 +87,6 @@ function TaskListLocalStore() {
 
     localDatabase.onupgradeneeded = () => {
       const localDatabaseResult = localDatabase.result;
-
       localDatabaseResult
         .createObjectStore(TASKS_LOCAL_STORE_NAME, {
           keyPath: '_id',
@@ -101,8 +100,8 @@ function TaskListLocalStore() {
       });
     };
 
-    localDatabase.onerror = () => {
-      console.error('Not possible to access local store.');
+    localDatabase.onerror = (error) => {
+      console.error(error);
     };
   }
 
