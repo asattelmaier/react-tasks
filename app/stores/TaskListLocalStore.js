@@ -19,12 +19,12 @@ function TaskListLocalStore() {
 
       indexDBRequest.onerror = (error) => {
         console.error(error);
-        reject();
+        reject(error);
       };
     });
   }
 
-  function getLocalStore() {
+  function databaseTransaction(task, action) {
     return new Promise((resolve, reject) => {
       openDatabase()
         .then((localDatabase) => {
@@ -41,40 +41,48 @@ function TaskListLocalStore() {
           const tasksStore =
             dbTransaction.objectStore(TASKS_LOCAL_STORE_NAME);
 
-          resolve(tasksStore);
+          switch (action) {
+            case 'getAll': {
+              tasksStore
+                .getAll()
+                .onsuccess = (event) => {
+                  const tasks = event.target.result;
+                  resolve(tasks);
+                };
+              break;
+            }
+            case 'put': {
+              tasksStore.put(task);
+              resolve();
+              break;
+            }
+            case 'delete': {
+              tasksStore.delete(task._id);
+              resolve();
+              break;
+            }
+            default: {
+              resolve();
+              break;
+            }
+          }
         })
         .catch(error => reject(console.error(error)));
     });
   }
 
   function putTask(task) {
-    getLocalStore()
-      .then((tasksStore) => {
-        tasksStore.put(task);
-      })
-      .catch(error => console.error(error));
+    databaseTransaction(task, 'put');
   }
 
   function deleteTask(task) {
-    getLocalStore()
-      .then((tasksStore) => {
-        tasksStore.delete(task._id);
-      })
-      .catch(error => console.error(error));
+    databaseTransaction(task, 'delete');
   }
 
   function getTasks() {
     return new Promise((resolve, reject) => {
-      getLocalStore()
-        .then((tasksStore) => {
-          const currentTaskStore = tasksStore;
-          currentTaskStore
-            .getAll()
-            .onsuccess = (event) => {
-              const tasks = event.target.result;
-              resolve(tasks);
-            };
-        })
+      databaseTransaction([], 'getAll')
+        .then(tasks => resolve(tasks))
         .catch(error => reject(console.error(error)));
     });
   }
