@@ -26,21 +26,9 @@ class Task extends React.Component {
 
   render() {
     return (
-      <div>
-        <li>
-          <p>
-            {this.props.task.content}
-          </p>
-        </li>
-        <form onSubmit={this.toggleDone}>
-          <button>
-            {this.props.task.done ? 'Done' : 'Not Done'}
-          </button>
-        </form>
-        <form onSubmit={this.deleteTask}>
-          <button>Delete</button>
-        </form>
-      </div>
+      <li className="task">
+        {this.props.task.content}
+      </li>
     );
   }
 }

@@ -1,2 +1,14 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+.task {
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+  list-style: none;
+  padding: 14px; }
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0; }
 
 /*# sourceMappingURL=maps/main.css.map */

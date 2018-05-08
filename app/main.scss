@@ -1,2 +1,10 @@
+// variables
+$gutter: 14px;
+$border-color: #ccc;
+
 // components
 @import 'components/Task';
+@import 'components/TaskList';
+
+// fonts
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');

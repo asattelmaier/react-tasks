@@ -1,3 +1,7 @@
-* {
-  // color: red;
+.task {
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+  list-style: none;
+  padding: $gutter;
 }
