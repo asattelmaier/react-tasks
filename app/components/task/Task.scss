@@ -1,0 +1,49 @@
+.task {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-bottom: 1px solid $gray;
+  font-family: 'Open Sans', sans-serif;
+  list-style: none;
+
+  &--active {
+    box-shadow: 0 0 4px $blue-light;
+    z-index: 2;
+  }
+
+  &__btn {
+    border: 0;
+    flex-basis: 100%;
+    padding: $gutter;
+
+    &:focus {
+      border: 0;
+      outline: none;
+    }
+  }
+
+  &__btn-action {
+    text-align: center;
+    color: $white;
+    display: none;
+
+    .task--active & {
+      display: block;
+    }
+  }
+
+  &__btn-active {
+    text-align: left;
+    background-color: $white;
+  }
+
+  &__btn-done {
+    background-color: $green;
+    border-top: 1px solid $green-dark;
+  }
+
+  &__btn-delete {
+    background-color: $red;
+    border-top: 1px solid $red-dark;
+  }
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TaskList from './components/TaskList.jsx';
+import TaskList from './components/taskList/TaskList.jsx';
 import TaskListStore from './stores/TaskListStore.js';
 
 let initialTasks = TaskListStore.getInitialTasks();

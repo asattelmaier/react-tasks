@@ -1,5 +1,5 @@
 import React from 'react';
-import TaskActions from './../actions/TaskActions.jsx';
+import TaskActions from './../../actions/TaskActions.jsx';
 
 class TaskListAddItem extends React.Component {
   constructor(props) {
