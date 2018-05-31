@@ -66,8 +66,6 @@ function TaskListStore() {
 
   function compareOnlineAndLocalStore(tasksOnline) {
     return new Promise((resolve, reject) => {
-      TaskListLocalStore.createLocalStore([]);
-
       TaskListLocalStore
         .getTasks()
         .then((tasksLocal) => {
@@ -131,6 +129,8 @@ function TaskListStore() {
   }
 
   function getInitialTasks() {
+    TaskListLocalStore.createLocalStore([]);
+
     return new Promise((resolve) => {
       generalGetTasks()
         .then(() => resolve(getTasks()));
