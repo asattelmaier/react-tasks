@@ -8,9 +8,9 @@ class Task extends React.Component {
 
     this.isSelected = false;
 
-    this.toggleDone = this.toggleDone.bind(this);
-    this.deleteTask = this.deleteTask.bind(this);
     this.setSelected = this.setSelected.bind(this);
+    this.setCompleted = this.setCompleted.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
   }
 
   componentWillUpdate(nextProps) {
@@ -22,28 +22,34 @@ class Task extends React.Component {
     this.props.setSelected(this.props.task._id);
   }
 
+  setCompleted(e) {
+    e.preventDefault();
+
+    this.props.task.done = !this.props.task.done;
+
+    TaskActions.updateTask(this.props.task);
+
+    this.props.setCompleted();
+  }
+
   deleteTask(e) {
     e.preventDefault();
 
     TaskActions.deleteTask(this.props.task);
   }
 
-  toggleDone(e) {
-    e.preventDefault();
-
-    this.props.task.done = !this.props.task.done;
-
-    TaskActions.updateTask(this.props.task);
-  }
-
   render() {
     return (
-      <li className={
+      <li
+        className={
           this.isSelected ? 'task task--active' : 'task'
         }
       >
         <button
-          className="task__btn task__btn-active"
+          className="
+            task__btn
+            task__btn-open-actions
+          "
           onClick={this.setSelected}
         >
           {this.props.task.content}
@@ -54,7 +60,7 @@ class Task extends React.Component {
             task__btn-action
             task__btn-done
           "
-          onClick={this.toggleDone}
+          onClick={this.setCompleted}
         >
           Aufgabe Erledigt
         </button>
@@ -64,7 +70,7 @@ class Task extends React.Component {
             task__btn-action
             task__btn-delete
           "
-          onClick={this.toggleDone}
+          onClick={this.deleteTask}
         >
           Aufgabe Löschen
         </button>
@@ -81,6 +87,7 @@ Task.propTypes = {
     done: PropTypes.bool.isRequired,
   }),
   setSelected: PropTypes.func.isRequired,
+  setCompleted: PropTypes.func.isRequired,
   selected: PropTypes.string,
 };
 
@@ -88,6 +95,7 @@ Task.defaultProps = {
   task: PropTypes.shape({
     done: false,
   }),
+  selected: null,
 };
 
 export default Task;

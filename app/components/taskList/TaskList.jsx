@@ -9,14 +9,39 @@ class TaskList extends React.Component {
 
     this.state = { selected: null };
 
+    this.tasksOpen = [];
+    this.tasksCompleted = [];
+
     this.buildTask = this.buildTask.bind(this);
     this.setSelectedTask = this.setSelectedTask.bind(this);
+    this.setCompletedTasks = this.setCompletedTasks.bind(this);
+
+    this.setCompletedTasks();
+  }
+
+  setCompletedTasks() {
+    this.tasksCompleted = [];
+    this.tasksOpen = [];
+
+    this.props.tasks.forEach((task) => {
+      if (task.done === true) {
+        this.tasksCompleted.push(task);
+      } else {
+        this.tasksOpen.push(task);
+      }
+    });
   }
 
   setSelectedTask(taskId) {
-    this.setState({
-      selected: taskId,
-    });
+    if (this.state.selected === taskId) {
+      this.setState({
+        selected: null,
+      });
+    } else {
+      this.setState({
+        selected: taskId,
+      });
+    }
   }
 
   buildTask(task) {
@@ -26,6 +51,7 @@ class TaskList extends React.Component {
         task={task}
         selected={this.state.selected}
         setSelected={this.setSelectedTask}
+        setCompleted={this.setCompletedTasks}
       />
     );
   }
@@ -34,8 +60,11 @@ class TaskList extends React.Component {
     return (
       <div>
         <TaskListAddTask />
-        <ul className="task-list">
-          {this.props.tasks.map(this.buildTask)}
+        <ul className="list tasks-open">
+          {this.tasksOpen.map(this.buildTask)}
+        </ul>
+        <ul className="list tasks-completed">
+          {this.tasksCompleted.map(this.buildTask)}
         </ul>
       </div>
     );
