@@ -47,7 +47,7 @@ class Task extends React.Component {
       >
         <button
           className="
-            task__btn
+            btn
             task__btn-open-actions
           "
           onClick={this.setSelected}
@@ -56,23 +56,27 @@ class Task extends React.Component {
         </button>
         <button
           className="
-            task__btn
+            btn
             task__btn-action
             task__btn-done
           "
           onClick={this.setCompleted}
         >
-          Aufgabe Erledigt
+          {
+            this.props.task.done
+            ? 'Aufabe nicht erledigt'
+            : 'Aufgabe erledigt'
+          }
         </button>
         <button
           className="
-            task__btn
+            btn
             task__btn-action
             task__btn-delete
           "
           onClick={this.deleteTask}
         >
-          Aufgabe Löschen
+          Aufgabe löschen
         </button>
       </li>
     );

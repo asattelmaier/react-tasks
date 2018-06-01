@@ -1,40 +1,62 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: #808080; }
+
+.btn {
+  border: 0;
+  flex-basis: 100%;
+  padding: 14px;
+  color: #fff;
+  border-top: 1px solid transparent; }
+  .btn:focus {
+    border: 0;
+    outline: none; }
+
 .task {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  border-bottom: 1px solid #ccc;
-  font-family: 'Open Sans', sans-serif;
+  border-top: 1px solid #ccc;
   list-style: none; }
   .task--active {
     box-shadow: 0 0 4px #5bc0de;
     z-index: 2; }
-  .task__btn {
-    border: 0;
-    flex-basis: 100%;
-    padding: 14px; }
-    .task__btn:focus {
-      border: 0;
-      outline: none; }
   .task__btn-action {
     text-align: center;
-    color: #fff;
     display: none; }
     .task--active .task__btn-action {
       display: block; }
   .task__btn-open-actions {
     text-align: left;
-    background-color: #fff; }
+    background-color: #fff;
+    color: #222; }
   .task__btn-done {
     background-color: #5cb85c;
-    border-top: 1px solid #3d803d; }
+    border-top-color: #3d803d; }
   .task__btn-delete {
     background-color: #d9534f;
-    border-top: 1px solid #904240; }
+    border-top-color: #904240; }
 
-.list {
+.tasks {
   display: flex;
-  flex-direction: column;
-  padding: 0; }
+  flex-direction: column; }
+  .tasks__hdl {
+    color: #ccc;
+    padding: 14px;
+    margin: 0; }
+  .tasks__list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0; }
+  .tasks__show-completed {
+    background-color: #ccc;
+    border-top-color: #808080;
+    color: #222; }
+  .tasks__completed-wrapper {
+    display: none; }
+    .tasks__completed-wrapper--active {
+      display: block; }
 
 /*# sourceMappingURL=maps/main.css.map */

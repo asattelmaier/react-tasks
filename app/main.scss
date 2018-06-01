@@ -1,12 +1,41 @@
 // variables
 $gutter: 14px;
-$gray: #ccc;
+
+// colors
+$black: #222;
 $white: #fff;
+
+$gray-light: #66757f;
+$gray: #ccc;
+$gray-dark: #808080;
+
 $green: #5cb85c;
 $green-dark: #3d803d;
+
 $red: #d9534f;
 $red-dark: #904240;
+
 $blue-light: #5bc0de;
+$blue: #337ab7;
+$blue-dark: #274661;
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: $gray-dark;
+}
+
+.btn {
+  border: 0;
+  flex-basis: 100%;
+  padding: $gutter;
+  color: $white;
+  border-top: 1px solid transparent;
+
+  &:focus {
+    border: 0;
+    outline: none;
+  }
+}
 
 // components
 @import 'components/task/Task';

@@ -1,5 +1,31 @@
-.list {
+.tasks {
   display: flex;
   flex-direction: column;
-  padding: 0;
+
+  &__hdl {
+    color: $gray;
+    padding: $gutter;
+    margin: 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__show-completed {
+    background-color: $gray;
+    border-top-color: $gray-dark;
+    color: $black;
+  }
+
+  &__completed-wrapper {
+    display: none;
+
+    &--active {
+      display: block;
+    }
+  }
 }

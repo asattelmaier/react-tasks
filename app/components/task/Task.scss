@@ -2,8 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  border-bottom: 1px solid $gray;
-  font-family: 'Open Sans', sans-serif;
+  border-top: 1px solid $gray;
   list-style: none;
 
   &--active {
@@ -11,20 +10,8 @@
     z-index: 2;
   }
 
-  &__btn {
-    border: 0;
-    flex-basis: 100%;
-    padding: $gutter;
-
-    &:focus {
-      border: 0;
-      outline: none;
-    }
-  }
-
   &__btn-action {
     text-align: center;
-    color: $white;
     display: none;
 
     .task--active & {
@@ -35,15 +22,16 @@
   &__btn-open-actions {
     text-align: left;
     background-color: $white;
+    color: $black;
   }
 
   &__btn-done {
     background-color: $green;
-    border-top: 1px solid $green-dark;
+    border-top-color: $green-dark;
   }
 
   &__btn-delete {
     background-color: $red;
-    border-top: 1px solid $red-dark;
+    border-top-color: $red-dark;
   }
 }

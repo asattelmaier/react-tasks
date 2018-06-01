@@ -11,10 +11,12 @@ class TaskList extends React.Component {
 
     this.tasksOpen = [];
     this.tasksCompleted = [];
+    this.showCompleted = false;
 
     this.buildTask = this.buildTask.bind(this);
     this.setSelectedTask = this.setSelectedTask.bind(this);
     this.setCompletedTasks = this.setCompletedTasks.bind(this);
+    this.toggleShowCompleted = this.toggleShowCompleted.bind(this);
 
     this.setCompletedTasks();
   }
@@ -44,6 +46,11 @@ class TaskList extends React.Component {
     }
   }
 
+  toggleShowCompleted() {
+    this.showCompleted = !this.showCompleted;
+    this.forceUpdate();
+  }
+
   buildTask(task) {
     return (
       <Task
@@ -60,12 +67,38 @@ class TaskList extends React.Component {
     return (
       <div>
         <TaskListAddTask />
-        <ul className="list tasks-open">
-          {this.tasksOpen.map(this.buildTask)}
-        </ul>
-        <ul className="list tasks-completed">
-          {this.tasksCompleted.map(this.buildTask)}
-        </ul>
+        <div className="tasks">
+          <h1 className="tasks__hdl"> Offene Aufgaben </h1>
+          <ul className="tasks__list">
+            {this.tasksOpen.map(this.buildTask)}
+          </ul>
+        </div>
+        <div className="tasks">
+          <button
+            className="btn tasks__show-completed"
+            onClick={this.toggleShowCompleted}
+          >
+            {
+              this.showCompleted
+              ? 'Erledigte Aufgaben ausblenden'
+              : 'Erledigte Aufgaben anzeigen'
+            }
+          </button>
+          <div
+            className={
+              this.showCompleted
+              ? 'tasks__completed-wrapper tasks__completed-wrapper--active'
+              : 'tasks__completed-wrapper'
+            }
+          >
+            <h1 className="tasks__hdl">
+              Erledigte Aufgaben
+            </h1>
+            <ul className="tasks__list">
+              {this.tasksCompleted.map(this.buildTask)}
+            </ul>
+          </div>
+        </div>
       </div>
     );
   }
