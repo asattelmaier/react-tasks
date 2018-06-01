@@ -28,4 +28,6 @@
 ### Running with forever
 ``` bash
   $ [sudo] forever start -c "node -r babel-register" .server/server.js
+  // or with npm
+  $ [sudo] npm run-script build
 ```
