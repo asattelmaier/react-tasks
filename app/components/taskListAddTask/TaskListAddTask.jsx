@@ -26,14 +26,23 @@ class TaskListAddItem extends React.Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.addTask}>
+      <div className="add-task">
+        <form
+          className="add-task__form"
+          onSubmit={this.addTask}
+        >
           <input
+            className="add-task__text"
             type="text"
+            placeholder="Neue Aufgabe anlegen"
             value={this.state.value}
             onChange={this.handleChange}
           />
-          <input type="submit" value="Submit" />
+          <input
+            className="btn add-task__submit"
+            type="submit"
+            value="Submit"
+          />
         </form>
       </div>
     );

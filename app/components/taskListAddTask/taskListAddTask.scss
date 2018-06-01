@@ -1,0 +1,33 @@
+.add-task {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: stretch;
+
+  &__form {
+    display: flex;
+    flex-basis: 100%;
+    border-top: 1px solid $blue;
+  }
+
+  &__text {
+    padding: $gutter;
+    flex-basis: 100%;
+    border: 0;
+    background-color: $gray-light;
+
+    &:focus {
+      border: 0;
+      outline: none;
+      background-color: $white;
+    }
+  }
+
+  &__submit {
+    flex-basis: auto;
+    background-color: $blue;
+  }
+}
