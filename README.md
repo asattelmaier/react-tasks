@@ -25,7 +25,7 @@
 * [.babelrc](https://github.com/airbnb/babel-preset-airbnb) - I used the babel settings by Airbnb 
 * [.elintrc.js](https://gist.github.com/nkbt/9efd4facb391edbf8048) - Strict ESLint config for React, ES6 (based on Airbnb Code style) (Note: added .js to .eslintrc configuration file just to have proper code highlighting here in gist.)
 
-# Glossary
-
-### <a name="isomorphism"></a>Isomorphism
-Rendering pages on both the server and client side.
+### Running with forever
+``` bash
+  $ [sudo] forever start -c "node -r babel-register" .server/server.js
+```
