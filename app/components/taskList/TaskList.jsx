@@ -21,6 +21,11 @@ class TaskList extends React.Component {
     this.setCompletedTasks();
   }
 
+  componentWillReceiveProps() {
+    this.setCompletedTasks();
+    this.setSelectedTask(null);
+  }
+
   setCompletedTasks() {
     this.tasksCompleted = [];
     this.tasksOpen = [];
@@ -35,7 +40,7 @@ class TaskList extends React.Component {
   }
 
   setSelectedTask(taskId) {
-    if (this.state.selected === taskId) {
+    if (this.state.selected === taskId || taskId === null) {
       this.setState({
         selected: null,
       });
