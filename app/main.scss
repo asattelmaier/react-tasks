@@ -32,7 +32,6 @@ body {
   border-top: 1px solid transparent;
 
   &:focus {
-    border: 0;
     outline: none;
   }
 }
@@ -41,6 +40,9 @@ body {
 @import 'components/task/task';
 @import 'components/taskList/taskList';
 @import 'components/taskListAddTask/taskListAddTask';
+
+//partials
+@import 'partials/footer/footer';
 
 // fonts
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');

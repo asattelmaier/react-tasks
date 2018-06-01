@@ -18,6 +18,7 @@
   &__show-completed {
     background-color: $gray;
     border-top-color: $gray-dark;
+    border-bottom: 1px solid $gray-dark;
     color: $black;
   }
 
