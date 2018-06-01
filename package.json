@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "babel-node server/server.js",
-    "build": "forever start -c \"node -r babel-register\" server/server.js",
+    "build": "forever start -c \"node -r babel-register\" server/server.js"
   },
   "repository": {
     "type": "git",
