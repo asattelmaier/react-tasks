@@ -18,20 +18,29 @@ class TaskList extends React.Component {
     this.setSelectedTask = this.setSelectedTask.bind(this);
     this.setCompletedTasks = this.setCompletedTasks.bind(this);
     this.toggleShowCompleted = this.toggleShowCompleted.bind(this);
+    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
 
     this.setCompletedTasks();
   }
 
-  componentWillReceiveProps() {
-    this.setCompletedTasks();
+  componentWillReceiveProps(nextProps) {
+    this.setCompletedTasks(nextProps.tasks);
     this.setSelectedTask(null);
   }
 
-  setCompletedTasks() {
+  setCompletedTasks(newTasks) {
     this.tasksCompleted = [];
     this.tasksOpen = [];
 
-    this.props.tasks.forEach((task) => {
+    let tasks;
+
+    if (newTasks) {
+      tasks = newTasks;
+    } else {
+      ({ tasks } = this.props);
+    }
+
+    tasks.forEach((task) => {
       if (task.done === true) {
         this.tasksCompleted.push(task);
       } else {
