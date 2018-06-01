@@ -30,6 +30,7 @@ body {
   padding: $gutter;
   color: $white;
   border-top: 1px solid transparent;
+  border-radius: 0;
 
   &:focus {
     outline: none;
