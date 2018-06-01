@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import TaskCounter from './../taskCounter/TaskCounter.jsx';
 import Task from './../task/Task.jsx';
 import TaskListAddTask from './../taskListAddTask/TaskListAddTask.jsx';
 
@@ -71,7 +72,10 @@ class TaskList extends React.Component {
   render() {
     return (
       <div>
-        <TaskListAddTask />
+        <TaskCounter
+          numberOpen={this.tasksOpen.length}
+          numberDone={this.tasksCompleted.length}
+        />
         <div className="tasks">
           <h1 className="tasks__hdl"> Offene Aufgaben </h1>
           <ul className="tasks__list">
@@ -104,6 +108,7 @@ class TaskList extends React.Component {
             </ul>
           </div>
         </div>
+        <TaskListAddTask />
       </div>
     );
   }

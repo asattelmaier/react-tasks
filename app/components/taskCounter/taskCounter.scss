@@ -1,0 +1,12 @@
+.task-counter {
+  background-color: $blue;
+  color: $white;
+  padding: $gutter / 2 $gutter;
+  font-size: 12px;
+  display: flex;
+  align-items: stretch;
+
+  &__tasks {
+    flex-basis: 100%;
+  }
+}

@@ -84,6 +84,16 @@ body {
     flex-basis: auto;
     background-color: #337ab7; }
 
+.task-counter {
+  background-color: #337ab7;
+  color: #fff;
+  padding: 7px 14px;
+  font-size: 12px;
+  display: flex;
+  align-items: stretch; }
+  .task-counter__tasks {
+    flex-basis: 100%; }
+
 .footer-general {
   padding: 14px;
   margin-bottom: 50px;
