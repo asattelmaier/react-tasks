@@ -4,18 +4,17 @@ CACHE:
 ./../app.js
 ./../css/normalize.css
 ./../css/main.css
+./../fonts/open_sans_regular.ttf
 
 NETWORK:
 ./../app.js
-http://localhost:80/api/tasks/get
+http://localhost:80/api/tasks/
 http://localhost:80/api/task/patch
 http://localhost:80/api/task/create
 http://localhost:80/api/tasks/create
 http://localhost:80/api/task/delete
-http://localhost:80/fonts/open_sans_regular.ttf
-http://localhost:7777/api/tasks/get
+http://localhost:7777/api/tasks/
 http://localhost:7777/api/task/patch
 http://localhost:7777/api/task/create
 http://localhost:7777/api/tasks/create
 http://localhost:7777/api/task/delete
-http://localhost:7777/fonts/open_sans_regular.ttf
