@@ -38,7 +38,11 @@ gulp.task('default', () =>
 
 gulp.task('watch', ['sass:watch'], () => {
   gulp.watch(
-    [`${devSrc}/**/*.jsx`, `${devSrc}/**/*.js`],
+    [
+      `${devSrc}/**/*.jsx`,
+      `${devSrc}/**/*.ejs`,
+      `${devSrc}/**/*.js`,
+    ],
     ['default'],
   );
 });
