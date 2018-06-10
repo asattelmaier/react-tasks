@@ -131,10 +131,8 @@ function TaskListStore() {
   function getInitialTasks() {
     TaskListLocalStore.createLocalStore([]);
 
-    return new Promise((resolve) => {
-      generalGetTasks()
-        .then(() => resolve(getTasks()));
-    });
+    generalGetTasks()
+      .then(() => getTasks());
   }
 
   function normalizeTask(task) {

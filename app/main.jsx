@@ -18,7 +18,3 @@ TaskListStore.onChange((updatedTasks) => {
   initialTasks = updatedTasks;
   render();
 });
-
-initialTasks
-  .then(() => render())
-  .catch(error => console.error(error));
