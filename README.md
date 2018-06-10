@@ -31,3 +31,6 @@
   // or with npm
   $ [sudo] npm run-script build
 ```
+
+### Stores Dataflow
+![screenshot](https://raw.github.com/AllanEd/react-tasks/master/help/dataflow-stores.jpg)
