@@ -34,3 +34,6 @@
 
 ### Stores Dataflow
 ![screenshot](https://raw.github.com/AllanEd/react-tasks/master/help/dataflow-stores.jpg)
+
+### Actions Dataflow
+![screenshot](https://raw.github.com/AllanEd/react-tasks/master/help/dataflow-actions.jpg)
