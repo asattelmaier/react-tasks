@@ -7,40 +7,35 @@ export default function (app) {
       Task.find((error, tasks) => res.send(tasks));
     });
 
+  function routeTasksCreateResponse(res, tasks) {
+    for (let i = 0; i < tasks.length; i += 1) {
+      const { isValid, notification } =
+        taskValidator.validateTask(tasks[i]);
+
+      if (isValid) {
+        const newTask = new Task(tasks[i]);
+        newTask.save();
+      } else {
+        res.status(503).send(notification);
+        return;
+      }
+    }
+
+    res.status(200).send();
+  }
+
   app.route('/api/tasks/create')
     .post((req, res) => {
       const requestTasks = req.body;
 
-      for (let i = 0; i < requestTasks.length; i += 1) {
-        const { isValid, notification } =
-          taskValidator.validateTask(requestTasks[i]);
-
-        if (isValid) {
-          const newTask = new Task(requestTasks[i]);
-          newTask.save();
-        } else {
-          res.status(503).send(notification);
-          break;
-        }
-      }
-
-      res.status(200).send();
+      routeTasksCreateResponse(res, requestTasks);
     });
 
   app.route('/api/task/create')
     .post((req, res) => {
       const requestTask = req.body;
 
-      const { isValid, notification } =
-          taskValidator.validateTask(requestTask);
-
-      if (isValid) {
-        const newTask = new Task(requestTask);
-        newTask.save();
-        res.status(200).send();
-      } else {
-        res.status(503).send(notification);
-      }
+      routeTasksCreateResponse(res, [requestTask]);
     });
 
   app.route('/api/task/delete')
