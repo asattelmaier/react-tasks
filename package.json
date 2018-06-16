@@ -28,7 +28,6 @@
   "homepage": "https://github.com/AllanEd/react-tasks#readme",
   "devDependencies": {
     "@babel/register": "^7.0.0-beta.46",
-    "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-preset-airbnb": "^2.4.0",
@@ -48,6 +47,7 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
+    "@babel/node": "^7.0.0-beta.51",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "guid": "0.0.12",
